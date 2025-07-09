@@ -1,35 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react';
+import './App.css';
+import DateCard from './components/DateCard';
+import DateModal from './components/DateModal';
+import AddDateModal from './components/AddDateModal';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [dates, setDates] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
+
+  useEffect(() => {
+    fetch('http://localhost:5050/api/dates')
+      .then(res => res.json())
+      .then(data => setDates(data))
+      .catch(err => console.error(err));
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="app">
+      <button className="add-date-btn" onClick={() => setShowAddModal(true)}>+ Add Date</button>
+      <h1>📸 Our Dates</h1>
+
+      <div className="gallery">
+        {dates.map(date => (
+          <DateCard key={date._id} date={date} onClick={setSelectedDate} />
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+
+      {selectedDate && (
+        <DateModal date={selectedDate} onClose={() => setSelectedDate(null)} />
+      )}
+
+      {showAddModal && (
+        <AddDateModal
+          onClose={() => setShowAddModal(false)}
+          onAdd={(newDate) => setDates(prev => [newDate, ...prev])}
+        />
+      )}
+    </div>
+  );
+
 }
 
-export default App
+export default App;
