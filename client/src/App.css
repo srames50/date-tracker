@@ -60,3 +60,36 @@
   background-color: #fff;
   cursor: pointer;
 }
+
+.auth-gate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.auth-gate input {
+  padding: 10px;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 200px;
+}
+
+.auth-gate button {
+  padding: 8px 16px;
+  background-color: #222;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.auth-gate button:hover {
+  background-color: #444;
+}

@@ -1,3 +1,4 @@
+import confetti from 'canvas-confetti';
 import { useEffect, useState } from 'react';
 import './App.css';
 import DateCard from './components/DateCard';
@@ -9,6 +10,10 @@ function App() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [sortOrder, setSortOrder] = useState('newest');
+  const [authenticated, setAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const secret = "iloveshyam";
+  
 
   const handleDelete = (id) => {
     setDates(prev => prev.filter(d => d._id !== id));
@@ -31,6 +36,51 @@ function App() {
       .then(data => setDates(data))
       .catch(err => console.error(err));
   }, []);
+
+  useEffect(() => {
+    if (authenticated) {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
+    }
+  }, [authenticated]);
+
+  if (!authenticated) {
+    return (
+      <div className="auth-gate">
+        <h2>💌</h2>
+        <p>Hi!! 😙 Enter the password to see our date-wall!</p>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (password === secret) {
+              setAuthenticated(true);
+            } else {
+              alert("Wrong password 😢");
+            }
+          }}
+        >
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter password"
+          />
+        </form>
+        <button onClick={() => {
+          if (password === secret) {
+            setAuthenticated(true);
+          } else {
+            alert("Wrong password 😢");
+          }
+        }}>
+          Enter
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="app">
