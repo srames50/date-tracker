@@ -1,10 +1,18 @@
+/* Global font and reset */
+* {
+  font-family: 'Quicksand', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 .app {
   padding: 20px;
-  font-family: sans-serif;
   background: #f4f4f4;
   min-height: 100vh;
 }
 
+/* Gallery grid */
 .gallery {
   display: flex;
   flex-wrap: wrap;
@@ -12,8 +20,39 @@
   gap: 10px;
 }
 
-.add-date-btn {
-  margin-bottom: 20px;
+/* --- Top bar --- */
+.top-bar {
+  background-color: white;
+  border-bottom: 2px dashed #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  padding: 25px 20px;
+  text-align: center;
+}
+
+/* Title */
+.title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #000000;
+  letter-spacing: 1px;
+}
+
+/* Controls container */
+.controls-row {
+  position: relative;       /* for absolute positioning inside */
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* pushes sort-container right */
+  margin-top: 15px;
+  width: 100%;
+  gap: 20px;
+}
+
+/* Center the Add Date button absolutely */
+.controls-row .add-date-btn {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   padding: 10px 20px;
   background: #0077cc;
   color: white;
@@ -21,31 +60,10 @@
   border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
+  z-index: 1; /* make sure it stays above */
 }
 
-.sort-toggle-btn {
-  margin-left: 10px;
-  padding: 8px 14px;
-  font-size: 14px;
-  background-color: #eeeeee;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.sort-toggle-btn:hover {
-  background-color: #ddd;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-
+/* Sort container stays right aligned */
 .sort-container {
   display: flex;
   align-items: center;
@@ -59,8 +77,10 @@
   border: 1px solid #ccc;
   background-color: #fff;
   cursor: pointer;
+  min-width: 140px;
 }
 
+/* --- Auth gate --- */
 .auth-gate {
   display: flex;
   flex-direction: column;
@@ -73,19 +93,19 @@
 .auth-gate input {
   padding: 10px;
   font-size: 16px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 6px;
   width: 200px;
 }
 
 .auth-gate button {
-  padding: 8px 16px;
+  padding: 10px 20px;
   background-color: #222;
   color: white;
   border: none;
   border-radius: 6px;
+  font-size: 1.125rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }

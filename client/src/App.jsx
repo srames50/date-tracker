@@ -53,8 +53,8 @@ function App() {
   if (!authenticated) {
     return (
       <div className="auth-gate">
-        <h2>💌</h2>
-        <p>Hi!! 😙 Enter the password to see our date-wall!</p>
+        <h1>💌</h1>
+        <h2>Hi!! 😙 Enter the password to see our date-wall!</h2>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -78,7 +78,7 @@ function App() {
           } else {
             alert("Wrong password 😢");
           }
-        }}>
+        }} className = "enterButton">
           Enter
         </button>
       </div>
@@ -87,18 +87,25 @@ function App() {
 
   return (
     <div className="app">
-      <h1>📸 Our Dates</h1>
-      <button className="add-date-btn" onClick={() => setShowAddModal(true)}>+ Add Date</button>
-      <div className="sort-container">
-        <label htmlFor="sort-select">Sort by: </label>
-        <select
-          id="sort-select"
-          value={sortOrder}
-          onChange={(e) => setSortOrder(e.target.value)}
-        >
-          <option value="newest">Newest → Oldest</option>
-          <option value="oldest">Oldest → Newest</option>
-        </select>
+      <div className="top-bar">
+        <h1 className="title">📸  An Online Photo-Wall For All Our Dates!  📸</h1>
+        <div className="controls-row">
+          <div className="left-spacer" />   {/* pushes Add Date button to center */}
+          <button className="add-date-btn" onClick={() => setShowAddModal(true)}>
+            Add New Date +
+          </button>
+          <div className="sort-container">
+            <label htmlFor="sort-select">Sort by: </label>
+            <select
+              id="sort-select"
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+            >
+              <option value="newest">Newest → Oldest</option>
+              <option value="oldest">Oldest → Newest</option>
+            </select>
+          </div>
+        </div>
       </div>
       <div className="gallery">
         {getSortedDates().map(date => (

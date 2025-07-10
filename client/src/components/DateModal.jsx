@@ -62,8 +62,8 @@ const handleDelete = async () => {
           <p>{date.description}</p>
           <p className="date">{new Date(date.date).toLocaleDateString()}</p>
             <div className="modal-actions">
-                <button onClick={handleDelete} className="delete-btn">Delete</button>
                 <button onClick={() => onEdit(date)} className="edit-btn">Edit</button>
+                <button onClick={handleDelete} className="delete-btn">Delete</button>
             </div>
         </div>
 
