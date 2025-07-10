@@ -1,9 +1,9 @@
 import confetti from 'canvas-confetti';
 import { useEffect, useState } from 'react';
 import './App.css';
+import AddDateModal from './components/AddDateModal';
 import DateCard from './components/DateCard';
 import DateModal from './components/DateModal';
-import AddDateModal from './components/AddDateModal';
 import EditDateModal from './components/EditDateModal';
 
 function App() {
@@ -34,7 +34,7 @@ function App() {
   };
 
   useEffect(() => {
-    fetch('http://localhost:5050/api/dates')
+    fetch(`${import.meta.env.VITE_API_URL}/api/dates`) //('http://localhost:5050/api/dates')
       .then(res => res.json())
       .then(data => setDates(data))
       .catch(err => console.error(err));
