@@ -1,2 +1,3 @@
 # date-tracker
-a date tracker for couples
+a date tracker for me
+
