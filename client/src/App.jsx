@@ -4,6 +4,7 @@ import './App.css';
 import DateCard from './components/DateCard';
 import DateModal from './components/DateModal';
 import AddDateModal from './components/AddDateModal';
+import EditDateModal from './components/EditDateModal';
 
 function App() {
   const [dates, setDates] = useState([]);
@@ -13,6 +14,8 @@ function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const secret = "iloveshyam";
+  const [editDate, setEditDate] = useState(null);
+
   
 
   const handleDelete = (id) => {
@@ -92,7 +95,7 @@ function App() {
           id="sort-select"
           value={sortOrder}
           onChange={(e) => setSortOrder(e.target.value)}
-    >
+        >
           <option value="newest">Newest → Oldest</option>
           <option value="oldest">Oldest → Newest</option>
         </select>
@@ -105,9 +108,13 @@ function App() {
 
       {selectedDate && (
         <DateModal 
-          date={selectedDate} 
-          onClose={() => setSelectedDate(null)} 
+          date={selectedDate}
+          onClose={() => setSelectedDate(null)}
           onDelete={handleDelete}
+          onEdit={(date) => {
+            setEditDate(date);
+            setSelectedDate(null);
+          }}
         />
       )}
 
@@ -117,6 +124,20 @@ function App() {
           onAdd={(newDate) => setDates(prev => [newDate, ...prev])}
         />
       )}
+
+      {editDate && (
+        <EditDateModal
+          initialData={editDate} // ✅ this matches your EditDateModal prop
+          onClose={() => setEditDate(null)}
+          onUpdate={(updatedDate) => {
+            setDates(prev =>
+              prev.map(d => (d._id === updatedDate._id ? updatedDate : d))
+            );
+            setEditDate(null);
+          }}
+        />
+      )}
+
     </div>
   );
 

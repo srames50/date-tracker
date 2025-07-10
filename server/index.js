@@ -59,6 +59,29 @@ app.delete('/api/dates/:id', async (req, res) => {
   }
 });
 
+app.put('/api/dates/:id', async (req, res) => {
+  console.log('PUT request to update date with id:', req.params.id);
+  console.log('Request body:', req.body);
+
+  try {
+    const updated = await DateEntry.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!updated) {
+      console.log('No document found with that id');
+      return res.status(404).json({ error: 'Date not found' });
+    }
+    console.log('Successfully updated:', updated);
+    res.json(updated);
+  } catch (err) {
+    console.error('Error during update:', err);
+    res.status(400).json({ error: err.message });
+  }
+});
+
+
 
 
 

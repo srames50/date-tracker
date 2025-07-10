@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './DateModal.css';
 
-const DateModal = ({ date, onClose, onDelete }) => {
+const DateModal = ({ date, onClose, onDelete, onEdit }) => {
 const [currentIndex, setCurrentIndex] = useState(0);
 const photos = date.photoUrls || [];
 
@@ -61,7 +61,10 @@ const handleDelete = async () => {
           <h2>{date.title}</h2>
           <p>{date.description}</p>
           <p className="date">{new Date(date.date).toLocaleDateString()}</p>
-          <button onClick={handleDelete} className="delete-btn">Delete Date</button>
+            <div className="modal-actions">
+                <button onClick={handleDelete} className="delete-btn">Delete</button>
+                <button onClick={() => onEdit(date)} className="edit-btn">Edit</button>
+            </div>
         </div>
 
       </div>
