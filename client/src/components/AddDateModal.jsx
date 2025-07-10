@@ -5,7 +5,7 @@ const AddDateModal = ({ onClose, onAdd }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    photoUrl: '',
+    photoUrls: [],
     date: '',
   });
 
@@ -17,29 +17,35 @@ const AddDateModal = ({ onClose, onAdd }) => {
   };
 
   const handleFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  const files = Array.from(e.target.files);
+  if (files.length === 0) return;
 
-    const fileData = new FormData();
-    fileData.append('file', file);
-    fileData.append('upload_preset', 'date-tracker-upload'); // Your unsigned preset name
+  setImageUploading(true);
+  const urls = [];
 
-    setImageUploading(true);
+  try {
+    for (let file of files) {
+      const fileData = new FormData();
+      fileData.append('file', file);
+      fileData.append('upload_preset', 'date-tracker-upload');
 
-    try {
       const res = await fetch('https://api.cloudinary.com/v1_1/dvkl0fnfv/image/upload', {
         method: 'POST',
         body: fileData,
       });
 
       const data = await res.json();
-      setFormData(prev => ({ ...prev, photoUrl: data.secure_url }));
-    } catch (err) {
-      console.error('Image upload failed:', err);
-    } finally {
-      setImageUploading(false);
+      urls.push(data.secure_url);
     }
-  };
+
+    setFormData(prev => ({ ...prev, photoUrls: urls }));
+  } catch (err) {
+    console.error('Image upload failed:', err);
+  } finally {
+    setImageUploading(false);
+  }
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -73,21 +79,20 @@ const AddDateModal = ({ onClose, onAdd }) => {
           <input
             type="file"
             accept="image/*"
+            multiple
             onChange={handleFileChange}
           />
 
           {imageUploading && <p>Uploading image...</p>}
-          {formData.photoUrl && (
-            <img
-              src={formData.photoUrl}
-              alt="Preview"
-              style={{
-                width: '100%',
-                maxHeight: '200px',
-                objectFit: 'cover',
-                borderRadius: '8px',
-              }}
-            />
+          {formData.photoUrls.length > 0 && (
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+            {formData.photoUrls.map((url, i) => (
+                <img key={i} 
+                src={url} 
+                alt={`preview-${i}`} 
+                style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '6px' }} />
+            ))}
+            </div>
           )}
 
           <input

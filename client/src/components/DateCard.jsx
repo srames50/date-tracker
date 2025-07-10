@@ -1,14 +1,16 @@
-// src/components/DateCard.jsx
 import React from 'react';
-import './DateCard.css'; // we’ll style it like a Polaroid
+import './DateCard.css';
 
 const DateCard = ({ date, onClick }) => {
+  const coverImage = date.photoUrls && date.photoUrls.length > 0
+    ? date.photoUrls[0]
+    : null;
+
   return (
     <div className="date-card" onClick={() => onClick(date)}>
-      <img
-        src={date.photoUrl || 'https://via.placeholder.com/300x200?text=No+Photo'}
-        alt={date.title}
-      />
+      {coverImage && (
+        <img src={coverImage} alt={date.title} />
+      )}
       <h3>{date.title}</h3>
     </div>
   );

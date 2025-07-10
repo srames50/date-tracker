@@ -49,6 +49,17 @@ app.get('/api/dates', async (req, res) => {
   }
 });
 
+app.delete('/api/dates/:id', async (req, res) => {
+  try {
+    const deleted = await DateEntry.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ error: 'Date not found' });
+    res.status(200).json({ message: 'Date deleted' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
