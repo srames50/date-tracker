@@ -22,3 +22,41 @@
   font-size: 1rem;
   cursor: pointer;
 }
+
+.sort-toggle-btn {
+  margin-left: 10px;
+  padding: 8px 14px;
+  font-size: 14px;
+  background-color: #eeeeee;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sort-toggle-btn:hover {
+  background-color: #ddd;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.sort-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sort-container select {
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+}
