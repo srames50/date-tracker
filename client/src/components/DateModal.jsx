@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import './DateModal.css';
 
-const DateModal = ({ date, onClose }) => {
+const DateModal = ({ date, onClose, onDelete }) => {
 const [currentIndex, setCurrentIndex] = useState(0);
 const photos = date.photoUrls || [];
 
@@ -11,6 +12,27 @@ const prevPhoto = () => {
 const nextPhoto = () => {
     setCurrentIndex((currentIndex + 1) % photos.length);
   };
+
+const handleDelete = async () => {
+  const confirm = window.confirm('Are you sure you want to delete this date?');
+  if (!confirm) return;
+
+  try {
+    const res = await fetch(`http://localhost:5050/api/dates/${date._id}`, {
+      method: 'DELETE',
+    });
+
+    if (res.ok) {
+      onDelete(date._id); // Update frontend state
+      onClose();          // Close modal
+    } else {
+      console.error('Failed to delete');
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -39,6 +61,7 @@ const nextPhoto = () => {
           <h2>{date.title}</h2>
           <p>{date.description}</p>
           <p className="date">{new Date(date.date).toLocaleDateString()}</p>
+          <button onClick={handleDelete} className="delete-btn">Delete Date</button>
         </div>
 
       </div>

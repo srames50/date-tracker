@@ -9,6 +9,11 @@ function App() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
+  const handleDelete = (id) => {
+    setDates(prev => prev.filter(d => d._id !== id));
+  };
+  
+
   useEffect(() => {
     fetch('http://localhost:5050/api/dates')
       .then(res => res.json())
@@ -28,7 +33,11 @@ function App() {
       </div>
 
       {selectedDate && (
-        <DateModal date={selectedDate} onClose={() => setSelectedDate(null)} />
+        <DateModal 
+          date={selectedDate} 
+          onClose={() => setSelectedDate(null)} 
+          onDelete={handleDelete}
+        />
       )}
 
       {showAddModal && (
