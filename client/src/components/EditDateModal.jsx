@@ -66,7 +66,7 @@ const EditDateModal = ({ onClose, onUpdate, initialData }) => {
     console.log('handleSubmit called');
     
     try {
-      const res = await fetch(`http://localhost:5050/api/dates/${initialData._id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/dates/${initialData._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

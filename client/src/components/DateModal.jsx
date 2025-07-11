@@ -18,7 +18,7 @@ const handleDelete = async () => {
   if (!confirm) return;
 
   try {
-    const res = await fetch(`http://localhost:5050/api/dates/${date._id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/dates/${date._id}`, {
       method: 'DELETE',
     });
 
