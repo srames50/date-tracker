@@ -11,34 +11,49 @@ function App() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [sortOrder, setSortOrder] = useState('newest');
-  const [authenticated, setAuthenticated] = useState(false);
+  const [authenticated, setAuthenticated] = useState(() => {
+    return localStorage.getItem("authenticated") === "true";
+  });
   const [password, setPassword] = useState('');
-  const secret = "iloveshyam";
   const [editDate, setEditDate] = useState(null);
 
-  
+  const secret = "iloveshyam";
+
+  const handleLogin = () => {
+    if (password === secret) {
+      setAuthenticated(true);
+      localStorage.setItem("authenticated", "true");
+    } else {
+      alert("Wrong password 😢");
+    }
+  };
+
+  const handleLogout = () => {
+    setAuthenticated(false);
+    localStorage.removeItem("authenticated");
+  };
 
   const handleDelete = (id) => {
     setDates(prev => prev.filter(d => d._id !== id));
   };
-  
+
   const getSortedDates = () => {
     const sorted = [...dates].sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
-      return sortOrder === 'newest'
-        ? dateB - dateA
-        : dateA - dateB;
+      return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
     });
     return sorted;
   };
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/dates`) //('http://localhost:5050/api/dates')
-      .then(res => res.json())
-      .then(data => setDates(data))
-      .catch(err => console.error(err));
-  }, []);
+    if (authenticated) {
+      fetch(`${import.meta.env.VITE_API_URL}/api/dates`)
+        .then(res => res.json())
+        .then(data => setDates(data))
+        .catch(err => console.error(err));
+    }
+  }, [authenticated]);
 
   useEffect(() => {
     if (authenticated) {
@@ -55,16 +70,7 @@ function App() {
       <div className="auth-gate">
         <h1>💌</h1>
         <h2>Hi!! 😙 Enter the password to see our date-wall!</h2>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (password === secret) {
-              setAuthenticated(true);
-            } else {
-              alert("Wrong password 😢");
-            }
-          }}
-        >
+        <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
           <input
             type="password"
             value={password}
@@ -72,15 +78,7 @@ function App() {
             placeholder="Enter password"
           />
         </form>
-        <button onClick={() => {
-          if (password === secret) {
-            setAuthenticated(true);
-          } else {
-            alert("Wrong password 😢");
-          }
-        }} className = "enterButton">
-          Enter
-        </button>
+        <button onClick={handleLogin} className="enterButton">Enter</button>
       </div>
     );
   }
@@ -88,14 +86,13 @@ function App() {
   return (
     <div className="app">
       <div className="top-bar">
-        <h1 className="title">📸  An Online Photo-Wall For All Our Dates!  📸</h1>
+        <h1 className="title">📸 An Online Photo-Wall For All Our Dates! 📸</h1>
         <div className="controls-row">
-          <div className="left-spacer" />   {/* pushes Add Date button to center */}
-          <button className="add-date-btn" onClick={() => setShowAddModal(true)}>
+          <button className="control-btn" onClick={() => setShowAddModal(true)}>
             Add New Date +
           </button>
           <div className="sort-container">
-            <label htmlFor="sort-select">Sort by: </label>
+            <label htmlFor="sort-select">Sort by:</label>
             <select
               id="sort-select"
               value={sortOrder}
@@ -105,8 +102,12 @@ function App() {
               <option value="oldest">Oldest → Newest</option>
             </select>
           </div>
+          <button className="control-btn logout-btn" onClick={handleLogout}>
+            Log Out
+          </button>
         </div>
       </div>
+
       <div className="gallery">
         {getSortedDates().map(date => (
           <DateCard key={date._id} date={date} onClick={setSelectedDate} />
@@ -114,7 +115,7 @@ function App() {
       </div>
 
       {selectedDate && (
-        <DateModal 
+        <DateModal
           date={selectedDate}
           onClose={() => setSelectedDate(null)}
           onDelete={handleDelete}
@@ -134,7 +135,7 @@ function App() {
 
       {editDate && (
         <EditDateModal
-          initialData={editDate} // ✅ this matches your EditDateModal prop
+          initialData={editDate}
           onClose={() => setEditDate(null)}
           onUpdate={(updatedDate) => {
             setDates(prev =>
@@ -147,7 +148,6 @@ function App() {
 
     </div>
   );
-
 }
 
 export default App;
