@@ -41,21 +41,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
   margin-top: 15px;
-  flex-wrap: wrap;
   width: 100%;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
 }
 
-
-/* Center the Add Date button absolutely */
-.controls-row .add-date-btn {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+/* Add Date button */
+.add-date-btn {
   padding: 10px 20px;
   background: #0077cc;
   color: white;
@@ -63,7 +59,6 @@
   border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
-  z-index: 1; /* make sure it stays above */
 }
 
 /* Sort container stays right aligned */
