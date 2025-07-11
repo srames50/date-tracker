@@ -58,9 +58,10 @@ const handleDelete = async () => {
 
 
         <div className="modal-right">
-          <h2>{date.title}</h2>
+          <h2>
+            {date.title} – {new Date(date.date).toLocaleDateString('en-US', { dateStyle: 'medium' })}
+          </h2>
           <p>{date.description}</p>
-          <p className="date">{new Date(date.date).toLocaleDateString()}</p>
             <div className="modal-actions">
                 <button onClick={() => onEdit(date)} className="edit-btn">Edit</button>
                 <button onClick={handleDelete} className="delete-btn">Delete</button>

@@ -12,6 +12,7 @@ const DateCard = ({ date, onClick }) => {
         <img src={coverImage} alt={date.title} />
       )}
       <h3>{date.title}</h3>
+      <p className="card-date">{new Date(date.date).toLocaleDateString()}</p>
     </div>
   );
 };
