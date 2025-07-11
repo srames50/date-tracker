@@ -94,7 +94,7 @@ const AddDateModal = ({ onClose, onAdd }) => {
             ))}
             </div>
           )}
-
+          <p>Add Date:</p>
           <input
             name="date"
             type="date"
