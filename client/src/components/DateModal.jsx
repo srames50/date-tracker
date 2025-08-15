@@ -12,7 +12,7 @@ const prevPhoto = () => {
 const nextPhoto = () => {
     setCurrentIndex((currentIndex + 1) % photos.length);
   };
-const displayDate = new Date(date).toISOString().split('T')[0];
+const displayDate = new Date(date.date).toISOString().split('T')[0];
 const handleDelete = async () => {
   const confirm = window.confirm('Are you sure you want to delete this date?');
   if (!confirm) return;

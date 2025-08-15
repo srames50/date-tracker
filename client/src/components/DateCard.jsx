@@ -6,7 +6,7 @@ const DateCard = ({ date, onClick }) => {
     ? date.photoUrls[0]
     : null;
 
-  const displayDate = new Date(date).toISOString().split('T')[0];
+  const displayDate = new Date(date.date).toISOString().split('T')[0];
 
 
   return (
