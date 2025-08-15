@@ -12,7 +12,7 @@ const prevPhoto = () => {
 const nextPhoto = () => {
     setCurrentIndex((currentIndex + 1) % photos.length);
   };
-
+const displayDate = new Date(date).toISOString().split('T')[0];
 const handleDelete = async () => {
   const confirm = window.confirm('Are you sure you want to delete this date?');
   if (!confirm) return;
@@ -59,7 +59,7 @@ const handleDelete = async () => {
 
         <div className="modal-right">
           <h2>
-            {date.title} – {new Date(date.date).toLocaleDateString('en-US', { dateStyle: 'medium' })}
+            {date.title} – {displayDate}
           </h2>
           <p>{date.description}</p>
             <div className="modal-actions">

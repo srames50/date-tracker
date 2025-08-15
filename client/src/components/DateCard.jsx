@@ -6,13 +6,16 @@ const DateCard = ({ date, onClick }) => {
     ? date.photoUrls[0]
     : null;
 
+  const displayDate = new Date(date).toISOString().split('T')[0];
+
+
   return (
     <div className="date-card" onClick={() => onClick(date)}>
       {coverImage && (
         <img src={coverImage} alt={date.title} />
       )}
       <h3>{date.title}</h3>
-      <p className="card-date">{new Date(date.date).toLocaleDateString()}</p>
+      <p className="card-date">{displayDate}</p>
     </div>
   );
 };
